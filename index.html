@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>User Task Manager</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>User Task Manager</h1>
+    <input id="nameInput" placeholder="Name" />
+    <input id="emailInput" placeholder="Email" />
+    <button id="createUserBtn">Create User</button>
+    <p id="error" class="error"></p>
+  </header>
+
+  <section>
+    <div class="dashboard">
+      <div class="stat">Total Users: <span id="totalUsers">0</span></div>
+      <div class="stat inactive">Inactive: <span id="inactiveUsers">0</span></div>
+      <div class="stat active">Active: <span id="activeUsers">0</span></div>
+      <div class="stat">Total Tasks: <span id="totalTasks">0</span></div>
+      <div class="stat pending">Pending Tasks: <span id="pendingTasks">0</span></div>
+      <div class="stat completed">Completed Tasks: <span id="completedTasks">0</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="filters">
+      <label>
+        Sort:
+        <select id="sortSelect">
+          <option value="az">Name (A–Z)</option>
+          <option value="tasks">Number of tasks</option>
+        </select>
+      </label>
+
+      <label>
+        Show:
+        <select id="filterSelect">
+          <option value="all">All users</option>
+          <option value="active">Active only</option>
+          <option value="inactive">Inactive only</option>
+        </select>
+      </label>
+    </div>
+  </section>
+
+  <div id="users"></div>
+
+  <div id="modalOverlay" class="modal-overlay hidden">
+    <div class="modal">
+      <p>This task already exists for this user.</p>
+      <p>Do you want to add it anyway?</p>
+      <button id="confirmYes">Yes</button>
+      <button id="confirmNo">No</button>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
