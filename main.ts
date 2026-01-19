@@ -183,9 +183,10 @@ function createUserCard(user: User) {
       userStatus();
     };
 
-    li.append(text, editBtn, completeBtn, deleteBtn);
+    li.append(text, completeBtn, editBtn, deleteBtn);
     taskList.appendChild(li);
-  });
+    }
+  );
 
   userDiv.append(
     title,

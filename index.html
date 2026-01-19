@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Task Manager</title>
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -21,7 +22,7 @@
       <div class="stat active">Active: <span id="activeUsers">0</span></div>
       <div class="stat">Total Tasks: <span id="totalTasks">0</span></div>
       <div class="stat pending">Pending Tasks: <span id="pendingTasks">0</span></div>
-      <div class="stat completed">Completed Tasks: <span id="completedTasks">0</span></div>
+      <div class="stat completed">Tasks Done: <span id="completedTasks">0</span></div>
     </div>
   </section>
 
@@ -30,7 +31,7 @@
       <label>
         Sort:
         <select id="sortSelect">
-          <option value="az">Name (A–Z)</option>
+          <option value="az">Name (A-Z)</option>
           <option value="tasks">Number of tasks</option>
         </select>
       </label>

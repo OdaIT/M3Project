@@ -146,7 +146,10 @@ function createUserCard(user) {
             user.tasks.splice(taskIndex, 1);
             userStatus();
         };
-        li.append(text, editBtn, completeBtn, deleteBtn);
+        var buttonsRow = document.createElement("div");
+        buttonsRow.className = "task-buttons";
+        buttonsRow.append(completeBtn, editBtn, deleteBtn);
+        li.append(text, buttonsRow);
         taskList.appendChild(li);
     });
     userDiv.append(title, status, toggleStatusBtn, deleteUserBtn, document.createElement("br"), taskInput, addTaskBtn, taskList);
