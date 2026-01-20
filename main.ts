@@ -1,4 +1,4 @@
-type Task = {
+interface Task {
   text: string;
   completed: boolean;
   completionTime?: string;
@@ -6,7 +6,7 @@ type Task = {
 
 type UserStatus = "active" | "inactive";
 
-type User = {
+interface User {
   name: string;
   email: string;
   status: UserStatus;

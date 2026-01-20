@@ -8,12 +8,14 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 var users = [];
+
 // Inputs
 var nameInput = document.getElementById("nameInput");
 var emailInput = document.getElementById("emailInput");
 var createUserBtn = document.getElementById("createUserBtn");
 var usersDiv = document.getElementById("users");
 var errorMsg = document.getElementById("error");
+
 // Dashboard
 var totalUsersEl = document.getElementById("totalUsers");
 var activeUsersEl = document.getElementById("activeUsers");
@@ -21,15 +23,18 @@ var inactiveUsersEl = document.getElementById("inactiveUsers");
 var pendingTasksEl = document.getElementById("pendingTasks");
 var completedTasksEl = document.getElementById("completedTasks");
 var totalTasksEl = document.getElementById("totalTasks");
+
 // Filtros
 var sortSelect = document.getElementById("sortSelect");
 var filterSelect = document.getElementById("filterSelect");
+
 // Modal
 var modalOverlay = document.getElementById("modalOverlay");
 var confirmYesBtn = document.getElementById("confirmYes");
 var confirmNoBtn = document.getElementById("confirmNo");
 var pendingUser = null;
 var pendingTaskText = "";
+
 // Data
 function now() {
     var d = new Date();
@@ -40,9 +45,11 @@ function now() {
     var minutes = String(d.getMinutes()).padStart(2, "0");
     return "".concat(day, "/").concat(month, "/").concat(year, " ").concat(hours, ":").concat(minutes);
 }
+
 createUserBtn.onclick = createUser;
 sortSelect.onchange = userStatus;
 filterSelect.onchange = userStatus;
+
 // Criação do user
 function createUser() {
     var name = nameInput.value.trim();
@@ -82,6 +89,7 @@ function userStatus() {
     visibleUsers.forEach(function (user) { return createUserCard(user); });
     showStats();
 }
+
 function createUserCard(user) {
     var userIndex = users.indexOf(user);
     var userDiv = document.createElement("div");
@@ -155,7 +163,7 @@ function createUserCard(user) {
     userDiv.append(title, status, toggleStatusBtn, deleteUserBtn, document.createElement("br"), taskInput, addTaskBtn, taskList);
     usersDiv.appendChild(userDiv);
 }
-// Add task with modal
+// Modal
 function addTaskUser(user, text) {
     var taskText = text.trim();
     if (!taskText)
@@ -169,7 +177,7 @@ function addTaskUser(user, text) {
     user.tasks.push({ text: taskText, completed: false });
     userStatus();
 }
-// Modal
+
 confirmYesBtn.onclick = function () {
     if (pendingUser && pendingTaskText) {
         pendingUser.tasks.push({ text: pendingTaskText, completed: false });
@@ -177,12 +185,14 @@ confirmYesBtn.onclick = function () {
     closeModal();
     userStatus();
 };
+
 confirmNoBtn.onclick = closeModal;
 function closeModal() {
     pendingUser = null;
     pendingTaskText = "";
     modalOverlay.classList.add("hidden");
 }
+
 // Dashboard stats
 function showStats() {
     totalUsersEl.textContent = users.length.toString();
