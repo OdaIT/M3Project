@@ -66,6 +66,18 @@ function createUser() {
   const email = emailInput.value.trim();
   errorMsg.textContent = "";
 
+
+
+  function validateEmail(email_:string) {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email_);
+  }
+
+  if (validateEmail(email) == false) {
+    errorMsg.textContent = "Email invalid";
+    return;
+  }
+
   if (!name || !email) {
     errorMsg.textContent = "Name and email are required";
     return;
