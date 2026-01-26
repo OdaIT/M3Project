@@ -1,4 +1,4 @@
-import {Task} from './task.js';
+import type {Task} from './task.js';
 
 
 interface User {
@@ -8,4 +8,4 @@ interface User {
   tasks: Task[];
 };
 
-export {User};
+export type {User};

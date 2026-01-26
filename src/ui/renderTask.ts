@@ -1,7 +1,4 @@
-import { users, pendingTaskText, pendingUser } from "../services/index";
-import { User } from "models/index";
-import { userStatus } from "../services/index";
-
+import type { User } from "../models/index.js";
 
 // Dashboard
 const totalUsersEl = document.getElementById("totalUsers") as HTMLSpanElement;
@@ -11,18 +8,25 @@ const pendingTasksEl = document.getElementById("pendingTasks") as HTMLSpanElemen
 const completedTasksEl = document.getElementById("completedTasks") as HTMLSpanElement;
 const totalTasksEl = document.getElementById("totalTasks") as HTMLSpanElement;
 
-let pendingTT = pendingTaskText;
-let pendingU = pendingUser;
+let pendingTT = "";
+let pendingU: User | null = null;
+let userStatusFn: (() => void) | null = null;
+let usersList: User[] = [];
+
+function setUserStatus(fn: () => void, users: User[]) {
+  userStatusFn = fn;
+  usersList = users;
+}
 
 function showStats() {
-  totalUsersEl.textContent = users.length.toString();
-  activeUsersEl.textContent = users.filter(u => u.status === "active").length.toString();
-  inactiveUsersEl.textContent = users.filter(u => u.status === "inactive").length.toString();
+  totalUsersEl.textContent = usersList.length.toString();
+  activeUsersEl.textContent = usersList.filter(u => u.status === "active").length.toString();
+  inactiveUsersEl.textContent = usersList.filter(u => u.status === "inactive").length.toString();
 
   let pending = 0;
   let completed = 0;
 
-  users.forEach(u =>
+  usersList.forEach(u =>
     u.tasks.forEach(t => (t.completed ? completed++ : pending++))
   );
 
@@ -32,7 +36,6 @@ function showStats() {
   pendingTasksEl.textContent = pending.toString();
   completedTasksEl.textContent = completed.toString();
 }
-
 
 const modalOverlay = document.getElementById("modalOverlay") as HTMLDivElement;
 
@@ -55,7 +58,7 @@ function addTaskUser(user: User, text: string) {
   }
 
   user.tasks.push({ text: taskText, completed: false });
-  userStatus();
+  if (userStatusFn) userStatusFn();
 }
 
-export {closeModal, showStats, addTaskUser};
+export {closeModal, showStats, addTaskUser, setUserStatus, pendingTT, pendingU};

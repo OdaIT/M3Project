@@ -1,12 +1,22 @@
-import { User } from '../models/index';
-import { now } from "../utils/utilTypes";
-import { userStatus, users, usersDiv } from 'services/index';
-import { addTaskUser } from './index';
+import type { User } from '../models/index.js';
+import { now } from "../utils/utilTypes.js";
+import { addTaskUser } from './renderTask.js';
 
+let userStatusFn: (() => void) | null = null;
+let users: User[] = [];
+let usersDiv: HTMLDivElement | null = null;
+
+function setRenderContext(statusFn: () => void, usersList: User[], usersDivElement: HTMLDivElement) {
+  userStatusFn = statusFn;
+  users = usersList;
+  usersDiv = usersDivElement;
+}
 
 // Criação do user
 
 function createUserCard(user: User) {
+  if (!users || !usersDiv || !userStatusFn) return;
+  
   const userIndex = users.indexOf(user);
 
   const userDiv = document.createElement("div");
@@ -24,14 +34,14 @@ function createUserCard(user: User) {
     user.status === "active" ? "Set Inactive" : "Set Active";
   toggleStatusBtn.onclick = () => {
     user.status = user.status === "active" ? "inactive" : "active";
-    userStatus();
+    userStatusFn?.();
   };
 
   const deleteUserBtn = document.createElement("button");
   deleteUserBtn.textContent = "Delete User";
   deleteUserBtn.onclick = () => {
     users.splice(userIndex, 1);
-    userStatus();
+    userStatusFn?.();
   };
 
   const taskInput = document.createElement("input");
@@ -60,7 +70,7 @@ function createUserCard(user: User) {
       const newText = prompt("Edit task", task.text);
       if (newText) {
         task.text = newText;
-        userStatus();
+        userStatusFn?.();
       }
     };
 
@@ -73,14 +83,14 @@ function createUserCard(user: User) {
       } else {
         delete task.completionTime;
       }
-      userStatus();
+      userStatusFn?.();
     };
 
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "Delete";
     deleteBtn.onclick = () => {
       user.tasks.splice(taskIndex, 1);
-      userStatus();
+      userStatusFn?.();
     };
 
     li.append(text, completeBtn, editBtn, deleteBtn);
@@ -102,4 +112,4 @@ function createUserCard(user: User) {
   usersDiv.appendChild(userDiv);
 }
 
-export {createUserCard};
+export {createUserCard, setRenderContext};

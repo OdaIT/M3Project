@@ -1,5 +1,5 @@
-import {User} from '../models/user';
-import { userStatus } from './taskService';
+import type {User} from '../models/user.js';
+import { userStatus } from './taskService.js';
 
 
 const nameInput = document.getElementById("nameInput") as HTMLInputElement;

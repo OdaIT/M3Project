@@ -1,6 +1,6 @@
-import { users } from '../services/index';
-import { User } from '../models/index';
-import { showStats, closeModal, createUserCard } from 'ui/index';
+import { users } from './index.js';
+import type { User } from '../models/index.js';
+import { showStats, closeModal, createUserCard } from '../ui/uiHelpers.js';
 
 
 // Estatisticas do user
@@ -28,7 +28,7 @@ visibleUsers.sort((a, b) => b.tasks.length - a.tasks.length);
 }
 
 visibleUsers.forEach(user => createUserCard(user));
-showStats();
+showStats(users);
 }
 
 // Modal

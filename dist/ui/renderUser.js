@@ -1,9 +1,17 @@
-import { now } from "../utils/utilTypes";
-import { userStatus, users, usersDiv } from 'services/index';
-import { addTaskUser } from './index';
-export { createUserCard };
+import { now } from "../utils/utilTypes.js";
+import { addTaskUser } from './renderTask.js';
+let userStatusFn = null;
+let users = [];
+let usersDiv = null;
+function setRenderContext(statusFn, usersList, usersDivElement) {
+    userStatusFn = statusFn;
+    users = usersList;
+    usersDiv = usersDivElement;
+}
 // Criação do user
 function createUserCard(user) {
+    if (!users || !usersDiv || !userStatusFn)
+        return;
     const userIndex = users.indexOf(user);
     const userDiv = document.createElement("div");
     userDiv.className = "user";
@@ -17,13 +25,13 @@ function createUserCard(user) {
         user.status === "active" ? "Set Inactive" : "Set Active";
     toggleStatusBtn.onclick = () => {
         user.status = user.status === "active" ? "inactive" : "active";
-        userStatus();
+        userStatusFn?.();
     };
     const deleteUserBtn = document.createElement("button");
     deleteUserBtn.textContent = "Delete User";
     deleteUserBtn.onclick = () => {
         users.splice(userIndex, 1);
-        userStatus();
+        userStatusFn?.();
     };
     const taskInput = document.createElement("input");
     taskInput.placeholder = "New task";
@@ -46,7 +54,7 @@ function createUserCard(user) {
             const newText = prompt("Edit task", task.text);
             if (newText) {
                 task.text = newText;
-                userStatus();
+                userStatusFn?.();
             }
         };
         const completeBtn = document.createElement("button");
@@ -59,13 +67,13 @@ function createUserCard(user) {
             else {
                 delete task.completionTime;
             }
-            userStatus();
+            userStatusFn?.();
         };
         const deleteBtn = document.createElement("button");
         deleteBtn.textContent = "Delete";
         deleteBtn.onclick = () => {
             user.tasks.splice(taskIndex, 1);
-            userStatus();
+            userStatusFn?.();
         };
         li.append(text, completeBtn, editBtn, deleteBtn);
         taskList.appendChild(li);
@@ -73,3 +81,4 @@ function createUserCard(user) {
     userDiv.append(title, status, toggleStatusBtn, deleteUserBtn, document.createElement("br"), taskInput, addTaskBtn, taskList);
     usersDiv.appendChild(userDiv);
 }
+export { createUserCard, setRenderContext };

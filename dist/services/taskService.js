@@ -1,6 +1,5 @@
-import { users } from '../services/index';
-import { showStats, closeModal, createUserCard } from 'ui/index';
-export { userStatus, pendingTaskText, pendingUser, usersDiv, sortSelect, filterSelect };
+import { users } from './index.js';
+import { showStats, closeModal, createUserCard } from '../ui/uiHelpers.js';
 // Estatisticas do user
 const sortSelect = document.getElementById("sortSelect");
 const filterSelect = document.getElementById("filterSelect");
@@ -23,7 +22,7 @@ function userStatus() {
         visibleUsers.sort((a, b) => b.tasks.length - a.tasks.length);
     }
     visibleUsers.forEach(user => createUserCard(user));
-    showStats();
+    showStats(users);
 }
 // Modal
 const confirmYesBtn = document.getElementById("confirmYes");
@@ -36,3 +35,4 @@ confirmYesBtn.onclick = () => {
     closeModal();
     userStatus();
 };
+export { userStatus, pendingTaskText, pendingUser, usersDiv, sortSelect, filterSelect };

@@ -1,4 +1,3 @@
-export { now };
 // Data
 function now() {
     const d = new Date();
@@ -9,3 +8,4 @@ function now() {
     const minutes = String(d.getMinutes());
     return `${day}/${month}/${year} ${hours}:${minutes}`;
 }
+export { now };

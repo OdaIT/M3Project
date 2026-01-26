@@ -1,5 +1,4 @@
-import { userStatus } from './taskService';
-export { createUser, users };
+import { userStatus } from './taskService.js';
 const nameInput = document.getElementById("nameInput");
 const emailInput = document.getElementById("emailInput");
 const errorMsg = document.getElementById("error");
@@ -29,3 +28,4 @@ function createUser() {
     emailInput.value = "";
     userStatus();
 }
+export { createUser, users };

@@ -4,4 +4,4 @@ interface Task {
   completionTime?: string;
 };
 
-export {Task}
+export type {Task}

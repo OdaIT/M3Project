@@ -1,6 +1,3 @@
-import { users, pendingTaskText, pendingUser } from "../services/index";
-import { userStatus } from "../services/index";
-export { closeModal, showStats, addTaskUser };
 // Dashboard
 const totalUsersEl = document.getElementById("totalUsers");
 const activeUsersEl = document.getElementById("activeUsers");
@@ -8,15 +5,21 @@ const inactiveUsersEl = document.getElementById("inactiveUsers");
 const pendingTasksEl = document.getElementById("pendingTasks");
 const completedTasksEl = document.getElementById("completedTasks");
 const totalTasksEl = document.getElementById("totalTasks");
-let pendingTT = pendingTaskText;
-let pendingU = pendingUser;
+let pendingTT = "";
+let pendingU = null;
+let userStatusFn = null;
+let usersList = [];
+function setUserStatus(fn, users) {
+    userStatusFn = fn;
+    usersList = users;
+}
 function showStats() {
-    totalUsersEl.textContent = users.length.toString();
-    activeUsersEl.textContent = users.filter(u => u.status === "active").length.toString();
-    inactiveUsersEl.textContent = users.filter(u => u.status === "inactive").length.toString();
+    totalUsersEl.textContent = usersList.length.toString();
+    activeUsersEl.textContent = usersList.filter(u => u.status === "active").length.toString();
+    inactiveUsersEl.textContent = usersList.filter(u => u.status === "inactive").length.toString();
     let pending = 0;
     let completed = 0;
-    users.forEach(u => u.tasks.forEach(t => (t.completed ? completed++ : pending++)));
+    usersList.forEach(u => u.tasks.forEach(t => (t.completed ? completed++ : pending++)));
     let total = pending + completed;
     totalTasksEl.textContent = total.toString();
     pendingTasksEl.textContent = pending.toString();
@@ -40,5 +43,7 @@ function addTaskUser(user, text) {
         return;
     }
     user.tasks.push({ text: taskText, completed: false });
-    userStatus();
+    if (userStatusFn)
+        userStatusFn();
 }
+export { closeModal, showStats, addTaskUser, setUserStatus, pendingTT, pendingU };
